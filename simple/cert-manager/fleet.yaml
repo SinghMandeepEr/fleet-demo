@@ -1,0 +1,8 @@
+defaultNamespace: smart-alarm
+helm:
+  chart: cert-manager
+  repo: https://charts.jetstack.io
+  version: v1.18.2   # pick a version from https://artifacthub.io/packages/helm/cert-manager/cert-manager
+  releaseName: cert-manager
+  values:
+    installCRDs: true

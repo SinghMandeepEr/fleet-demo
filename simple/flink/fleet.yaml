@@ -1,0 +1,9 @@
+defaultNamespace: smart-alarm
+helm:
+  chart: flink-kubernetes-operator
+  repo: https://downloads.apache.org/flink/flink-kubernetes-operator-1.9.0
+  version: 1.9.0
+  releaseName: flink-operator
+
+dependsOn:
+  - name: cert-manager
