@@ -6,4 +6,4 @@ helm:
   releaseName: flink-operator
 
 dependsOn:
-  - name: cert-manager
+  - name: sample-simple-cert-manager
