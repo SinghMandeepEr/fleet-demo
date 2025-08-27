@@ -1,0 +1,5 @@
+defaultNamespace: nginx
+helm:
+  chart: nginx
+  repo: https://charts.bitnami.com/bitnami
+  version: 21.1.23   # pick a version available in the repo
