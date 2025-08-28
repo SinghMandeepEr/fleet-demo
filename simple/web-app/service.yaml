@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-alarms-webapp
+spec:
+  selector:
+    app: smart-alarms-webapp
+  ports:
+    - protocol: TCP
+      port: 80          # Service port (inside cluster)
+      targetPort: 80  # Container port your app listens on
+  type: ClusterIP
