@@ -38,7 +38,6 @@ data:
         Resource    k8s_container
         google_service_credentials /var/secrets/google/key.json
         location    asia-south1
-        cluster_name k3s-cluster
         namespace   logging
 ---
 apiVersion: apps/v1
