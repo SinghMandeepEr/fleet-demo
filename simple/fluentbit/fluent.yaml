@@ -39,6 +39,8 @@ data:
         google_service_credentials /var/secrets/google/key.json
         location    asia-south1
         namespace   logging
+        k8s_cluster_name    default
+        k8s_cluster_location    local-cluster
 ---
 apiVersion: apps/v1
 kind: DaemonSet
