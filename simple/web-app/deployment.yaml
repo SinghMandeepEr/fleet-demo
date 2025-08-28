@@ -17,7 +17,7 @@ spec:
         - name: acr-secret
       containers:
         - name: smart-alarms-webapp
-          image: hpiazceus2acreeprd.azurecr.io/smart-alarms-webapp:0.0.6
+          image: hpiazceus2acreeprd.azurecr.io/smart-alarms-webapp:0.0.7
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80   # change if your app listens on another port
