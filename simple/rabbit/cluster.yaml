@@ -3,3 +3,4 @@ kind: RabbitmqCluster
 metadata:
   name: rabbit
   namespace: rabbit
+  rivision: 1
