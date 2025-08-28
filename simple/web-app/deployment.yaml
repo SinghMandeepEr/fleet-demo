@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: smart-alarms-webapp
+  namespace: smart-alarm
 spec:
   replicas: 1
   selector:
@@ -20,17 +21,3 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80   # change if your app listens on another port
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: smart-alarms-webapp
-spec:
-  selector:
-    app: smart-alarms-webapp
-  ports:
-    - protocol: TCP
-      port: 80          # Service port (inside cluster)
-      targetPort: 80  # Container port your app listens on
-  type: ClusterIP

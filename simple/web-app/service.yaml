@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: smart-alarms-webapp
   revision: 1
+  namespace: smart-alarm
 spec:
   selector:
     app: smart-alarms-webapp
