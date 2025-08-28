@@ -12,6 +12,8 @@ spec:
       labels:
         app: smart-alarms-webapp
     spec:
+      imagePullSecrets:
+        - name: acr-secret
       containers:
         - name: smart-alarms-webapp
           image: hpiazceus2acreeprd.azurecr.io/smart-alarms-webapp:0.0.1
