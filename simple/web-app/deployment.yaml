@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-alarms-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smart-alarms-webapp
+  template:
+    metadata:
+      labels:
+        app: smart-alarms-webapp
+    spec:
+      containers:
+        - name: smart-alarms-webapp
+          image: hpiazceus2acreeprd.azurecr.io/smart-alarms-webapp:0.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80   # change if your app listens on another port
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-alarms-webapp
+spec:
+  selector:
+    app: smart-alarms-webapp
+  ports:
+    - protocol: TCP
+      port: 80          # Service port (inside cluster)
+      targetPort: 80  # Container port your app listens on
+  type: ClusterIP
