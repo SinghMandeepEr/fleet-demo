@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: httpbin-ping
-  namespace: default
+  namespace: smart-alarm
 spec:
   entryPoints:
     - web
@@ -10,24 +10,11 @@ spec:
   - match: Path(`/api/ping`)
     kind: Rule
     services:
-    - name: httpbin-ping
+    - name: smart-alarms-webapp-service
       port: 80
     middlewares:
     - name: strip-api
----
-# Define service as ExternalName (pointing to httpbin.org)
-apiVersion: v1
-kind: Service
-metadata:
-  name: httpbin-ping
-  namespace: default
-spec:
-  type: ExternalName
-  externalName: httpbin.org
-  ports:
-    - port: 80
-      protocol: TCP
----
+    
 # Middleware to strip `/api` so httpbin sees `/ping`
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
