@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: httpbin-ping
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/api/ping`)
+      kind: Rule
+      services:
+        - name: httpbin
+          port: 80
+      middlewares:
+        - name: strip-api
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-api
+spec:
+  stripPrefix:
+    prefixes:
+      - "/api"
