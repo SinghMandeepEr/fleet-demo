@@ -26,10 +26,10 @@ spec:
   flinkVersion: v1_20
   jobManager:
     resource:
-      memory: "800m"
+      memory: "1024m"
       cpu: 0.2
   taskManager:
     resource:
-      memory: "800m"
+      memory: "1024m"
       cpu: 0.5
   serviceAccount: flink
