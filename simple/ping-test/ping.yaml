@@ -9,8 +9,6 @@ spec:
   routes:
   - match: Path(`/api/ping`)
     kind: Rule
-    middlewares:
-      - name: strip-api
     services:
       - name: smart-alarms-webapp-service
         namespace: smart-alarm
