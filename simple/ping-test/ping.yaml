@@ -13,16 +13,5 @@ spec:
       - name: strip-api
     services:
       - name: smart-alarms-webapp-service
-        namespace: kota
+        namespace: smart-alarm
         port: 80
----
-# Middleware in same namespace as IngressRoute (smart-alarm)
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-api
-  namespace: default
-spec:
-  stripPrefix:
-    prefixes:
-      - "/api"
