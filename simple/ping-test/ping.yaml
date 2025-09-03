@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: my-ingress
   namespace: smart-alarm
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
