@@ -9,7 +9,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /RigAlarm
+      - path: /RigAlarmsDashboard
         pathType: Prefix
         backend:
           service:
