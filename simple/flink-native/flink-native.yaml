@@ -65,8 +65,6 @@ spec:
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
-            - name: DISABLE_JEMALLOC
-              value: "true"
             - name: FLINK_LOG_LEVEL
               value: "INFO"     # <-- Logging level set here
           ports:
@@ -123,8 +121,6 @@ spec:
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
-            - name: DISABLE_JEMALLOC
-              value: "true"
             - name: FLINK_LOG_LEVEL
               value: "INFO"     # <-- Logging level set here
           ports:
