@@ -1,0 +1,124 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flink
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flink-conf
+  namespace: flink
+data:
+  flink-conf.yaml: |
+    jobmanager.rpc.address: jobmanager
+    jobmanager.rpc.port: 6123
+    taskmanager.numberOfTaskSlots: 2
+    taskmanager.memory.process.size: 1024m       # reduced from 2048m
+    taskmanager.memory.framework.heap.size: 512m # reduced from 1024m
+    taskmanager.memory.network.min: 32m          # reduced from 64m
+    taskmanager.memory.network.max: 256m         # reduced from 512m
+    taskmanager.memory.managed.size: 512m        # reduced from 1024m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobmanager
+  namespace: flink
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      targetPort: 8081
+      name: ui
+    - port: 6123
+      targetPort: 6123
+      name: rpc
+  selector:
+    app: flink
+    component: jobmanager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobmanager
+  namespace: flink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink
+      component: jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink
+        component: jobmanager
+    spec:
+      containers:
+        - name: jobmanager
+          image: apache/flink:1.20.2
+          ports:
+            - containerPort: 8081
+            - containerPort: 6123
+          env:
+            - name: JOB_MANAGER_RPC_ADDRESS
+              value: jobmanager
+          volumeMounts:
+            - name: flink-conf
+              mountPath: /opt/flink/conf
+      volumes:
+        - name: flink-conf
+          configMap:
+            name: flink-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskmanager
+  namespace: flink
+spec:
+  ports:
+    - port: 6121
+      targetPort: 6121
+      name: data
+    - port: 6122
+      targetPort: 6122
+      name: data-shuffle
+  selector:
+    app: flink
+    component: taskmanager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmanager
+  namespace: flink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink
+      component: taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink
+        component: taskmanager
+    spec:
+      containers:
+        - name: taskmanager
+          image: apache/flink:1.20.2
+          ports:
+            - containerPort: 6121
+            - containerPort: 6122
+          env:
+            - name: JOB_MANAGER_RPC_ADDRESS
+              value: jobmanager
+          volumeMounts:
+            - name: flink-conf
+              mountPath: /opt/flink/conf
+      volumes:
+        - name: flink-conf
+          configMap:
+            name: flink-conf
