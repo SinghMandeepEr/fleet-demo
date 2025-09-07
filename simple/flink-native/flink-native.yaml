@@ -58,14 +58,17 @@ spec:
       containers:
         - name: jobmanager
           image: apache/flink:1.20.2
-          ports:
-            - containerPort: 8081
-            - containerPort: 6123
+          args: ["jobmanager"]            # <-- start as JobManager
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
               value: jobmanager
             - name: FLINK_CONF_DIR
-              value: /opt/flink/custom-conf  # <-- point to writable mount
+              value: /opt/flink/custom-conf
+            - name: DISABLE_JEMALLOC
+              value: "true"               # optional
+          ports:
+            - containerPort: 8081
+            - containerPort: 6123
           volumeMounts:
             - name: flink-conf
               mountPath: /opt/flink/custom-conf
@@ -97,7 +100,7 @@ metadata:
   name: taskmanager
   namespace: flink
 spec:
-  replicas: 1
+  replicas: 1   # single TaskManager
   selector:
     matchLabels:
       app: flink
@@ -111,14 +114,17 @@ spec:
       containers:
         - name: taskmanager
           image: apache/flink:1.20.2
-          ports:
-            - containerPort: 6121
-            - containerPort: 6122
+          args: ["taskmanager"]          # <-- start as TaskManager
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
+            - name: DISABLE_JEMALLOC
+              value: "true"             # optional
+          ports:
+            - containerPort: 6121
+            - containerPort: 6122
           volumeMounts:
             - name: flink-conf
               mountPath: /opt/flink/custom-conf
