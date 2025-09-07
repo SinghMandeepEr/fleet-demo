@@ -16,12 +16,12 @@ data:
     jobmanager.rpc.port: 6123
 
     # JobManager memory
-    jobmanager.memory.process.size: 512m
+    jobmanager.memory.heap.size: 512m
  
 
     # TaskManager memory
     taskmanager.numberOfTaskSlots: 1
-    taskmanager.memory.process.size: 512m
+    taskmanager.memory.heap.size: 512m
 
 ---
 apiVersion: v1
