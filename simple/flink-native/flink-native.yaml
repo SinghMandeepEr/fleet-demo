@@ -14,9 +14,10 @@ data:
     # JobManager RPC
     jobmanager.rpc.address: jobmanager
     jobmanager.rpc.port: 6123
-    log4j.rootLogger=INFO, console
-    log4j.logger.org.apache.flink.runtime.jobmanager=INFO
-    log4j.logger.org.apache.flink.runtime.taskmanager=INFO
+    log4j.rootLogger: INFO,console
+    log4j.logger.org.apache.flink.runtime.jobmanager: INFO
+    log4j.logger.org.apache.flink.runtime.taskmanager: INFO
+    log4j.appender.console: org.apache.log4j.ConsoleAppender
 
     # JobManager memory
     jobmanager.memory.flink.size: 512m
