@@ -14,6 +14,8 @@ data:
     # JobManager RPC
     jobmanager.rpc.address: jobmanager
     jobmanager.rpc.port: 6123
+    log4j.logger.org.apache.flink.runtime.jobmanager=INFO
+    log4j.logger.org.apache.flink.runtime.taskmanager=INFO
 
     # JobManager memory
     jobmanager.memory.flink.size: 512m
@@ -68,8 +70,6 @@ spec:
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
-            - name: DISABLE_JEMALLOC
-              value: "true"
           ports:
             - containerPort: 8081
             - containerPort: 6123
@@ -124,8 +124,6 @@ spec:
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
-            - name: DISABLE_JEMALLOC
-              value: "true"
           ports:
             - containerPort: 6121
             - containerPort: 6122
