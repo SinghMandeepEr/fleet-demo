@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
         - name: jobmanager
-          image: flink:1.9.0
+          image: flink:1.20
           args: ["jobmanager"]
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
@@ -116,7 +116,7 @@ spec:
     spec:
       containers:
         - name: taskmanager
-          image: flink:1.9.0
+          image: flink:1.20
           args: ["taskmanager"]
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
