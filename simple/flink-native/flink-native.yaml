@@ -21,7 +21,7 @@ data:
 
     # TaskManager memory
     taskmanager.numberOfTaskSlots: 1
-    taskmanager.memory.flink.size: 512m
+    taskmanager.memory.flink.size: 600m
 
 ---
 apiVersion: v1
