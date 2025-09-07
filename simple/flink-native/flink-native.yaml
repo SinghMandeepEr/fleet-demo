@@ -15,11 +15,11 @@ data:
     jobmanager.rpc.port: 6123
 
     # JobManager memory
-    jobmanager.memory.flink.size: 512m
+    jobmanager.memory.flink.size: 800m
 
     # TaskManager memory
-    taskmanager.numberOfTaskSlots: 1
-    taskmanager.memory.flink.size: 600m
+    taskmanager.numberOfTaskSlots: 2
+    taskmanager.memory.flink.size: 800m
 ---
 apiVersion: v1
 kind: Service
