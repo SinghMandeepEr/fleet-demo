@@ -14,11 +14,11 @@ data:
     jobmanager.rpc.address: jobmanager
     jobmanager.rpc.port: 6123
     taskmanager.numberOfTaskSlots: 2
-    taskmanager.memory.process.size: 1024m       # reduced from 2048m
-    taskmanager.memory.framework.heap.size: 512m # reduced from 1024m
-    taskmanager.memory.network.min: 32m          # reduced from 64m
-    taskmanager.memory.network.max: 256m         # reduced from 512m
-    taskmanager.memory.managed.size: 512m        # reduced from 1024m
+    taskmanager.memory.process.size: 2048m       # restored
+    taskmanager.memory.framework.heap.size: 1024m # restored
+    taskmanager.memory.network.min: 64m          # restored
+    taskmanager.memory.network.max: 512m         # restored
+    taskmanager.memory.managed.size: 1024m        # restored
 ---
 apiVersion: v1
 kind: Service
@@ -95,7 +95,7 @@ metadata:
   name: taskmanager
   namespace: flink
 spec:
-  replicas: 1
+  replicas: 1   # single TaskManager
   selector:
     matchLabels:
       app: flink
