@@ -11,8 +11,16 @@ metadata:
   namespace: flink
 data:
   flink-conf.yaml: |
+    # JobManager RPC
     jobmanager.rpc.address: jobmanager
     jobmanager.rpc.port: 6123
+
+    # JobManager memory
+    jobmanager.memory.process.size: 1024m
+    jobmanager.memory.heap.size: 512m
+    jobmanager.memory.off-heap.size: 256m
+
+    # TaskManager memory
     taskmanager.numberOfTaskSlots: 2
     taskmanager.memory.process.size: 2048m
     taskmanager.memory.framework.heap.size: 1024m
@@ -58,14 +66,14 @@ spec:
       containers:
         - name: jobmanager
           image: apache/flink:1.20.2
-          args: ["jobmanager"]            # <-- start as JobManager
+          args: ["jobmanager"]
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
             - name: DISABLE_JEMALLOC
-              value: "true"               # optional
+              value: "true"
           ports:
             - containerPort: 8081
             - containerPort: 6123
@@ -100,7 +108,7 @@ metadata:
   name: taskmanager
   namespace: flink
 spec:
-  replicas: 1   # single TaskManager
+  replicas: 1
   selector:
     matchLabels:
       app: flink
@@ -114,14 +122,14 @@ spec:
       containers:
         - name: taskmanager
           image: apache/flink:1.20.2
-          args: ["taskmanager"]          # <-- start as TaskManager
+          args: ["taskmanager"]
           env:
             - name: JOB_MANAGER_RPC_ADDRESS
               value: jobmanager
             - name: FLINK_CONF_DIR
               value: /opt/flink/custom-conf
             - name: DISABLE_JEMALLOC
-              value: "true"             # optional
+              value: "true"
           ports:
             - containerPort: 6121
             - containerPort: 6122
