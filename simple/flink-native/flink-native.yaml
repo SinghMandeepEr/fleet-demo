@@ -19,6 +19,8 @@ data:
     jobmanager.memory.process.size: 1024m
     jobmanager.memory.heap.size: 512m
     jobmanager.memory.off-heap.size: 256m
+    jobmanager.memory.jvm-overhead.min: 192m
+    jobmanager.memory.jvm-overhead.max: 1024m
 
     # TaskManager memory
     taskmanager.numberOfTaskSlots: 2
