@@ -16,3 +16,10 @@ spec:
             name: smart-alarm-web-app-fe
             port:
               number: 80
+      - path: /SmartAlarm    
+        pathType: Prefix
+        backend:
+          service:
+            name: smart-alarms-webapp
+            port:
+              number: 80    
