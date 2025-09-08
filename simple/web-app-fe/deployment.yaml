@@ -19,7 +19,7 @@ spec:
         - name: acr-secret
       containers:
         - name: smart-alarm-web-app-fe
-          image: hpiazceus2acreeprd.azurecr.io/smart-alarm-web-app-fe:0.0.5
+          image: hpiazceus2acreeprd.azurecr.io/smart-alarm-web-app-fe:0.0.6
           ports:
             - containerPort: 80
           resources:
