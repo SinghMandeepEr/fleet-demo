@@ -4,6 +4,7 @@ metadata:
   name: smart-alarm-web-app-fe
   labels:
     app: smart-alarm-web-app-fe
+  namespace: smart-alarm
 spec:
   type: ClusterIP
   selector:
