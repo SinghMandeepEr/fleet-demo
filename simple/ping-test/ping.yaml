@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: smart-alarm-webapp-ingress
+  name: rig-alarms-dashboard-ingress
   namespace: smart-alarm
   annotations:
     kubernetes.io/ingress.class: traefik
@@ -16,10 +16,23 @@ spec:
             name: smart-alarm-web-app-fe
             port:
               number: 80
-      - path: /SmartAlarm    
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smart-alarms-ingress
+  namespace: smart-alarm
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /SmartAlarm
         pathType: Prefix
         backend:
           service:
             name: smart-alarms-webapp
             port:
-              number: 80    
+              number: 80
