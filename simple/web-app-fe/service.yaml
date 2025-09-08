@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-alarm-web-app-fe
+  labels:
+    app: smart-alarm-web-app-fe
+spec:
+  type: ClusterIP
+  selector:
+    app: smart-alarm-web-app-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
