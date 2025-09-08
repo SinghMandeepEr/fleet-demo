@@ -17,16 +17,6 @@ spec:
             port:
               number: 80
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: smartalarm-strip
-  namespace: smart-alarm
-spec:
-  stripPrefix:
-    prefixes:
-      - "/SmartAlarm"
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -34,12 +24,12 @@ metadata:
   namespace: smart-alarm
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.middlewares: smart-alarm-smartalarm-strip@kubernetescrd
+    traefik.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - path: /SmartAlarm
+      - path: /
         pathType: Prefix
         backend:
           service:
