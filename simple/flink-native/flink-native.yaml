@@ -14,7 +14,7 @@ data:
     taskmanager.numberOfTaskSlots: 2
     parallelism.default: 2
 
-    kubernetes.cluster-id: flink-session-cluster
+    kubernetes.cluster-id: flink-native-cluster
     kubernetes.namespace: flink
     kubernetes.rest-service.exposed.type: NodePort
 
@@ -25,12 +25,21 @@ data:
     taskmanager.data.port: 6121
     queryable-state.proxy.ports: 6125
 
-    # Memory
     jobmanager.memory.process.size: 1024m
     taskmanager.memory.process.size: 2048m
 
-    # Logging
     env.log.dir: /opt/flink/log
+    taskmanager.memory.managed.size: 512m
+    taskmanager.cpu.cores: 1
+    jobmanager.cpu.cores: 1
+
+  log4j-console.properties: |
+    rootLogger.level = INFO
+    rootLogger.appenderRef.console.ref = ConsoleAppender
+    appender.console.name = ConsoleAppender
+    appender.console.type = CONSOLE
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n
 ---
 apiVersion: v1
 kind: Service
@@ -67,12 +76,49 @@ spec:
     spec:
       containers:
       - name: jobmanager
-        image: flink:1.20.0-scala_2.12 # pick your Flink version
+        image: flink:1.20.0-scala_2.12
         args: ["jobmanager"]
         ports:
         - containerPort: 6123
         - containerPort: 6124
         - containerPort: 8081
+        env:
+        - name: FLINK_PROPERTIES
+          value: "jobmanager.rpc.address=flink-jobmanager"
+        volumeMounts:
+        - name: flink-config-volume
+          mountPath: /opt/flink/conf
+      volumes:
+      - name: flink-config-volume
+        configMap:
+          name: flink-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-taskmanager
+  namespace: flink
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      containers:
+      - name: taskmanager
+        image: flink:1.20.0-scala_2.12
+        args: ["taskmanager"]
+        ports:
+        - containerPort: 6121
+        - containerPort: 6122
+        - containerPort: 6125
+        env:
+        - name: FLINK_PROPERTIES
+          value: "jobmanager.rpc.address=flink-jobmanager"
         volumeMounts:
         - name: flink-config-volume
           mountPath: /opt/flink/conf
