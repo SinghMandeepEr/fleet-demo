@@ -26,7 +26,7 @@ data:
     queryable-state.proxy.ports: 6125
   
     jobmanager.memory.process.size: 512m
-    taskmanager.memory.process.size: 512m
+    taskmanager.memory.process.size: 800m
   
 
     jobmanager.memory.heap.size: 256m
