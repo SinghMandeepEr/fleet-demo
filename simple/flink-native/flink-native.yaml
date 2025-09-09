@@ -13,25 +13,32 @@ data:
     jobmanager.rpc.address: flink-jobmanager
     taskmanager.numberOfTaskSlots: 1
     parallelism.default: 1
-
+  
     kubernetes.cluster-id: flink-native-cluster
     kubernetes.namespace: flink
     kubernetes.rest-service.exposed.type: NodePort
-
+  
     rest.port: 8081
     blob.server.port: 6124
     jobmanager.rpc.port: 6123
     taskmanager.rpc.port: 6122
     taskmanager.data.port: 6121
     queryable-state.proxy.ports: 6125
-
+  
     jobmanager.memory.process.size: 512m
     taskmanager.memory.process.size: 512m
-
+  
+    # detailed splits
+    taskmanager.memory.framework.heap.size: 64m
+    taskmanager.memory.task.heap.size: 128m
+    taskmanager.memory.managed.size: 128m
+    taskmanager.memory.network.min: 64m
+    taskmanager.memory.network.max: 64m
+  
     env.log.dir: /opt/flink/log
-    taskmanager.memory.managed.size: 512m
     taskmanager.cpu.cores: 1
     jobmanager.cpu.cores: 1
+
 
   log4j-console.properties: |
     rootLogger.level = INFO
