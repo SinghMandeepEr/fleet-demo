@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flink
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flink-config
+  namespace: flink
+data:
+  flink-conf.yaml: |
+    jobmanager.rpc.address: flink-jobmanager
+    taskmanager.numberOfTaskSlots: 2
+    parallelism.default: 2
+
+    kubernetes.cluster-id: flink-session-cluster
+    kubernetes.namespace: flink
+    kubernetes.rest-service.exposed.type: NodePort
+
+    rest.port: 8081
+    blob.server.port: 6124
+    jobmanager.rpc.port: 6123
+    taskmanager.rpc.port: 6122
+    taskmanager.data.port: 6121
+    queryable-state.proxy.ports: 6125
+
+    # Memory
+    jobmanager.memory.process.size: 1024m
+    taskmanager.memory.process.size: 2048m
+
+    # Logging
+    env.log.dir: /opt/flink/log
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flink-jobmanager
+  namespace: flink
+spec:
+  ports:
+  - name: rpc
+    port: 6123
+  - name: blob
+    port: 6124
+  - name: webui
+    port: 8081
+    nodePort: 30081
+  selector:
+    app: flink-jobmanager
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+  namespace: flink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      containers:
+      - name: jobmanager
+        image: flink:1.20.0-scala_2.12 # pick your Flink version
+        args: ["jobmanager"]
+        ports:
+        - containerPort: 6123
+        - containerPort: 6124
+        - containerPort: 8081
+        volumeMounts:
+        - name: flink-config-volume
+          mountPath: /opt/flink/conf
+      volumes:
+      - name: flink-config-volume
+        configMap:
+          name: flink-config
