@@ -11,8 +11,8 @@ metadata:
 data:
   flink-conf.yaml: |
     jobmanager.rpc.address: flink-jobmanager
-    taskmanager.numberOfTaskSlots: 2
-    parallelism.default: 2
+    taskmanager.numberOfTaskSlots: 1
+    parallelism.default: 1
 
     kubernetes.cluster-id: flink-native-cluster
     kubernetes.namespace: flink
@@ -25,8 +25,8 @@ data:
     taskmanager.data.port: 6121
     queryable-state.proxy.ports: 6125
 
-    jobmanager.memory.process.size: 1024m
-    taskmanager.memory.process.size: 2048m
+    jobmanager.memory.process.size: 512m
+    taskmanager.memory.process.size: 512m
 
     env.log.dir: /opt/flink/log
     taskmanager.memory.managed.size: 512m
@@ -99,7 +99,7 @@ metadata:
   name: flink-taskmanager
   namespace: flink
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: flink-taskmanager
