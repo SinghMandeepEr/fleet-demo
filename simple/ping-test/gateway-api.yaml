@@ -54,7 +54,9 @@ spec:
     - type: URLRewrite
       urlRewrite:
         path:
+          type: ReplacePrefixMatch
           replacePrefixMatch: /
     backendRefs:
     - name: smart-alarms-webapp-service
       port: 80
+
