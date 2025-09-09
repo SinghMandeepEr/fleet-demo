@@ -40,6 +40,8 @@ data:
     taskmanager.memory.managed.size: 128m
     taskmanager.memory.network.min: 64m
     taskmanager.memory.network.max: 64m
+    taskmanager.memory.jvm-overhead.min: 32m
+    taskmanager.memory.jvm-overhead.max: 64m
   
     env.log.dir: /opt/flink/log
     taskmanager.cpu.cores: 1
