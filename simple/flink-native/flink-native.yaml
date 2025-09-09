@@ -97,6 +97,13 @@ spec:
         - containerPort: 6123
         - containerPort: 6124
         - containerPort: 8081
+        resources:
+          requests:
+            memory: "600Mi"
+            cpu: "1"
+          limits:
+            memory: "600Mi"
+            cpu: "1"
         env:
         - name: FLINK_PROPERTIES
           value: "jobmanager.rpc.address=flink-jobmanager"
