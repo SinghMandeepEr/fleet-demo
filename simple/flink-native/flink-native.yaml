@@ -28,6 +28,12 @@ data:
     jobmanager.memory.process.size: 512m
     taskmanager.memory.process.size: 512m
   
+
+    jobmanager.memory.heap.size: 256m
+    jobmanager.memory.off-heap.size: 64m
+    jobmanager.memory.jvm-metaspace.size: 128m
+    jobmanager.memory.jvm-overhead.min: 32m
+    jobmanager.memory.jvm-overhead.max: 64m
     # detailed splits
     taskmanager.memory.framework.heap.size: 64m
     taskmanager.memory.task.heap.size: 128m
