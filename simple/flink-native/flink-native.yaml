@@ -11,7 +11,7 @@ metadata:
 data:
   flink-conf.yaml: |
     jobmanager.rpc.address: flink-jobmanager
-    taskmanager.numberOfTaskSlots: 1
+    taskmanager.numberOfTaskSlots: 2
     parallelism.default: 1
   
     kubernetes.cluster-id: flink-native-cluster
