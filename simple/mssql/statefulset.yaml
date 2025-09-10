@@ -34,7 +34,7 @@ spec:
         resources:
           limits:
             memory: "1.4Gi"
-            cpu: "2"
+            cpu: "1.5"
         volumeMounts:
         - name: mssql
           mountPath: "/var/opt/mssql"
