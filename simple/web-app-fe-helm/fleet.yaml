@@ -1,0 +1,6 @@
+defaultNamespace: smart-alarm
+helm:
+  chart: .
+  releaseName: smart-alarm-web-app-fe
+  valuesFiles:
+    - values.yaml
