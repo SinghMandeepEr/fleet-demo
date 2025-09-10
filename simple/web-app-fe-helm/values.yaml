@@ -8,7 +8,8 @@ image:
   tag: "0.0.10"
   pullPolicy: IfNotPresent
 
-imagePullSecrets: [acr-secret]
+imagePullSecrets:
+  - name: acr-secret
 
 service:
   type: ClusterIP
