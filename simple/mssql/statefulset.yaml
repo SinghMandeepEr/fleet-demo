@@ -21,10 +21,6 @@ spec:
      ports:
      - containerPort: 1433
        name: tcpsql
-     resources:
-          limits:
-            memory: "1.4Gi"
-            cpu: "2"  
      env:
      - name: ACCEPT_EULA
        value: "Y"
