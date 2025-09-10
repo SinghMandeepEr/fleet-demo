@@ -25,14 +25,14 @@ resources:
 
 readinessProbe:
   enabled: true
-  path: /
+  path: /RigAlarmsDashboard/
   port: 80
   initialDelaySeconds: 5
   periodSeconds: 10
 
 livenessProbe:
   enabled: true
-  path: /
+  path: /RigAlarmsDashboard/
   port: 80
   initialDelaySeconds: 15
   periodSeconds: 20
