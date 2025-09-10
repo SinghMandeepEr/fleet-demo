@@ -1,0 +1,65 @@
+Chart.yaml
+---
+apiVersion: v2
+name: smart-alarm-web-app-fe
+description: Helm chart for Smart Alarm frontend (smart-alarm-web-app-fe)
+type: application
+version: 0.1.0
+appVersion: "0.0.10"
+
+values.yaml
+---
+
+
+---
+
+templates/deployment.yaml
+---
+
+
+---
+
+templates/service.yaml
+---
+
+
+---
+
+templates/ingress.yaml
+---
+
+
+---
+
+templates/NOTES.txt
+---
+1. Get the application URL by running these commands if ingress is enabled:
+
+  export POD_NAME=$(kubectl get pods -l app={{ .Values.appName }} -n {{ .Values.namespace | default .Release.Namespace }} -o jsonpath="{.items[0].metadata.name}")
+  kubectl port-forward $POD_NAME 8080:80 -n {{ .Values.namespace | default .Release.Namespace }}
+
+2. To access via ingress, make sure your DNS points to your ingress controller and visit http://{{ (index .Values.ingress.hosts 0).host }}
+
+---
+
+README.md
+---
+# smart-alarm-web-app-fe Helm Chart
+
+This Helm chart deploys the Smart Alarm frontend ({{ .Values.appName }}) into a Kubernetes cluster (k3s compatible).
+
+## Features
+- Deployment with configurable replica count and resources
+- ClusterIP Service
+- Optional Ingress
+- ImagePullSecrets support
+- Readiness & Liveness probes
+
+## Usage
+Install:
+
+```bash
+helm install smart-alarm ./smart-alarm-web-app-fe -n smart-alarm --create-namespace
+```
+
+To enable ingress, set `ingress.enabled=true` and update hosts in `values.yaml` or with `--set`.

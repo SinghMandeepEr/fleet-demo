@@ -2,25 +2,29 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "smart-alarm-web-app-fe.fullname" . }}
+  name: {{ .Values.appName }}-ingress
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.ingress.className | quote }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
+  {{- range .Values.ingress.hosts }}
     - host: {{ .host }}
       http:
         paths:
-          {{- range .paths }}
+        {{- range .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "smart-alarm-web-app-fe.fullname" $ }}
+                name: {{ $.Values.appName }}
                 port:
                   number: {{ $.Values.service.port }}
-          {{- end }}
-    {{- end }}
+        {{- end }}
+  {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
     {{- toYaml .Values.ingress.tls | nindent 4 }}

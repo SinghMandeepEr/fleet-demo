@@ -1,0 +1,48 @@
+appName: smart-alarm-web-app-fe
+namespace: smart-alarm
+
+replicaCount: 1
+
+image:
+  repository: hpiazceus2acreeprd.azurecr.io/smart-alarm-web-app-fe
+  tag: "0.0.10"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: [acr-secret]
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+
+readinessProbe:
+  enabled: true
+  path: /
+  port: 80
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  enabled: true
+  path: /
+  port: 80
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+ingress:
+  enabled: false
+  ingressClassName: ""
+  annotations: {}
+  hosts:
+    - host: smart-alarm.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []

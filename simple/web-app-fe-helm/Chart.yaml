@@ -1,0 +1,6 @@
+apiVersion: v2
+name: smart-alarm-web-app-fe
+description: Helm chart for Smart Alarm frontend (smart-alarm-web-app-fe)
+type: application
+version: 0.1.0
+appVersion: "0.0.10"
