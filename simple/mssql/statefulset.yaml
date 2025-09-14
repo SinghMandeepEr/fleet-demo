@@ -21,13 +21,11 @@ spec:
      ports:
      - containerPort: 1433
        name: tcpsql
-     resources:
-          limits:
-            memory: "1.4Gi"
-            cpu: "2"   
      env:
      - name: ACCEPT_EULA
        value: "Y"
+     - name: MSSQL_ENABLE_HADR
+       value: "1"
      - name: MSSQL_AGENT_ENABLED
        value: "1"
      - name: MSSQL_SA_PASSWORD
