@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mssql
-  rev: 1
 spec:
   serviceName: "mssql"
   replicas: 1
@@ -18,7 +17,7 @@ spec:
         fsGroup: 10001
       containers:
       - name: mssql
-        image: mcr.microsoft.com/mssql/server:2022-express
+        image: mcr.microsoft.com/mssql/server:2022-latest
         ports:
         - containerPort: 1433
           name: tcpsql
@@ -30,6 +29,8 @@ spec:
             secretKeyRef:
               name: mssql
               key: MSSQL_SA_PASSWORD
+        - name: MSSQL_PID
+          value: "Express"
         volumeMounts:
         - name: mssql
           mountPath: "/var/opt/mssql"
