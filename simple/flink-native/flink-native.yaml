@@ -105,6 +105,8 @@ spec:
             - name: flink-log4j
               mountPath: /opt/flink/conf/log4j-console.properties
               subPath: log4j-console.properties
+            - name: flink-logs
+              mountPath: /opt/flink/log
       volumes:
         - name: flink-conf
           configMap:
@@ -118,6 +120,8 @@ spec:
             items:
               - key: log4j-console.properties
                 path: log4j-console.properties
+        - name: flink-logs
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -152,6 +156,8 @@ spec:
             - name: flink-log4j
               mountPath: /opt/flink/conf/log4j-console.properties
               subPath: log4j-console.properties
+            - name: flink-logs
+              mountPath: /opt/flink/log
       volumes:
         - name: flink-conf
           configMap:
@@ -165,3 +171,5 @@ spec:
             items:
               - key: log4j-console.properties
                 path: log4j-console.properties
+        - name: flink-logs
+          emptyDir: {}
