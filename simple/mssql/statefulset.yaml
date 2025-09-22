@@ -41,34 +41,6 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "4"
-        readinessProbe:
-          exec:
-            command:
-            - /opt/mssql-tools/bin/sqlcmd
-            - "-S"
-            - "localhost"
-            - "-U"
-            - "sa"
-            - "-P"
-            - "$(MSSQL_SA_PASSWORD)"
-            - "-Q"
-            - "SELECT 1"
-          initialDelaySeconds: 20
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command:
-            - /opt/mssql-tools/bin/sqlcmd
-            - "-S"
-            - "localhost"
-            - "-U"
-            - "sa"
-            - "-P"
-            - "$(MSSQL_SA_PASSWORD)"
-            - "-Q"
-            - "SELECT 1"
-          initialDelaySeconds: 30
-          periodSeconds: 15
   volumeClaimTemplates:
     - metadata:
         name: mssql
