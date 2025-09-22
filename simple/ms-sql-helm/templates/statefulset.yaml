@@ -16,6 +16,13 @@ spec:
       securityContext:
         fsGroup: 10001
         runAsUser: 10001
+      initContainers:
+      - name: fix-permissions
+        image: busybox
+        command: ["sh", "-c", "chown -R 10001:10001 /var/opt/mssql"]
+        volumeMounts:
+        - name: mssql
+          mountPath: /var/opt/mssql
       containers:
       - name: mssql
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
