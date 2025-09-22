@@ -15,7 +15,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 10001
-        runAsUser: 10001
       initContainers:
       - name: fix-permissions
         image: busybox
