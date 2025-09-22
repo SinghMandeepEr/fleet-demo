@@ -19,6 +19,8 @@ spec:
       initContainers:
       - name: fix-permissions
         image: busybox
+        securityContext:
+         runAsUser: 0
         command: ["sh", "-c", "chown -R 10001:10001 /var/opt/mssql"]
         volumeMounts:
         - name: mssql
