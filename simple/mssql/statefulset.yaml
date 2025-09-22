@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mssql
-  rev: 1
 spec:
   serviceName: "mssql"
   replicas: 1
@@ -18,17 +17,13 @@ spec:
         fsGroup: 10001
       containers:
       - name: mssql
-        image: mcr.microsoft.com/mssql/server:2022-latest
+        image: mcr.microsoft.com/mssql/server:2022-express
         ports:
         - containerPort: 1433
           name: tcpsql
         env:
         - name: ACCEPT_EULA
           value: "Y"
-        - name: MSSQL_ENABLE_HADR
-          value: "1"
-        - name: MSSQL_AGENT_ENABLED
-          value: "1"
         - name: MSSQL_SA_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -43,7 +38,35 @@ spec:
             cpu: "1"
           limits:
             memory: "1Gi"
-            cpu: "2"
+            cpu: "4"
+        readinessProbe:
+          exec:
+            command:
+            - /opt/mssql-tools/bin/sqlcmd
+            - "-S"
+            - "localhost"
+            - "-U"
+            - "sa"
+            - "-P"
+            - "$(MSSQL_SA_PASSWORD)"
+            - "-Q"
+            - "SELECT 1"
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+            - /opt/mssql-tools/bin/sqlcmd
+            - "-S"
+            - "localhost"
+            - "-U"
+            - "sa"
+            - "-P"
+            - "$(MSSQL_SA_PASSWORD)"
+            - "-Q"
+            - "SELECT 1"
+          initialDelaySeconds: 30
+          periodSeconds: 15
   volumeClaimTemplates:
     - metadata:
         name: mssql
@@ -52,4 +75,6 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
+            storage: 10Gi
+          limits:
             storage: 10Gi
