@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: mcr.microsoft.com/mssql/server
+  tag: 2022-latest
+  pullPolicy: IfNotPresent
+
+mssql:
+  pid: "Express"
+  acceptEula: "Y"
+
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "1"
+  limits:
+    memory: "1Gi"
+    cpu: "4"
+
+persistence:
+  enabled: true
+  storage: 10Gi
+  accessMode: ReadWriteOnce
