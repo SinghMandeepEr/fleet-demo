@@ -13,28 +13,27 @@ data:
     jobmanager.rpc.address: flink-jobmanager
     taskmanager.numberOfTaskSlots: 2
     parallelism.default: 1
-  
+
     kubernetes.cluster-id: flink-native-cluster
     kubernetes.namespace: flink
     kubernetes.rest-service.exposed.type: NodePort
-  
+
     rest.port: 8081
     blob.server.port: 6124
     jobmanager.rpc.port: 6123
     taskmanager.rpc.port: 6122
     taskmanager.data.port: 6121
     queryable-state.proxy.ports: 6125
-  
+
     jobmanager.memory.process.size: 512m
     taskmanager.memory.process.size: 800m
-  
 
     jobmanager.memory.heap.size: 256m
     jobmanager.memory.off-heap.size: 64m
     jobmanager.memory.jvm-metaspace.size: 128m
     jobmanager.memory.jvm-overhead.min: 32m
     jobmanager.memory.jvm-overhead.max: 64m
-    # detailed splits
+
     taskmanager.memory.framework.heap.size: 64m
     taskmanager.memory.task.heap.size: 128m
     taskmanager.memory.managed.size: 128m
@@ -42,11 +41,10 @@ data:
     taskmanager.memory.network.max: 64m
     taskmanager.memory.jvm-overhead.min: 32m
     taskmanager.memory.jvm-overhead.max: 64m
-  
+
     env.log.dir: /opt/flink/log
     taskmanager.cpu.cores: 1
     jobmanager.cpu.cores: 1
-
 
   log4j-console.properties: |
     rootLogger.level = INFO
@@ -62,17 +60,17 @@ metadata:
   name: flink-jobmanager
   namespace: flink
 spec:
-  ports:
-  - name: rpc
-    port: 6123
-  - name: blob
-    port: 6124
-  - name: webui
-    port: 8081
-    nodePort: 30081
+  type: NodePort
   selector:
     app: flink-jobmanager
-  type: NodePort
+  ports:
+    - name: rpc
+      port: 6123
+    - name: blob
+      port: 6124
+    - name: webui
+      port: 8081
+      nodePort: 30081
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -90,23 +88,36 @@ spec:
         app: flink-jobmanager
     spec:
       containers:
-      - name: jobmanager
-        image: flink:1.20.0-scala_2.12
-        args: ["jobmanager"]
-        ports:
-        - containerPort: 6123
-        - containerPort: 6124
-        - containerPort: 8081
-        env:
-        - name: FLINK_PROPERTIES
-          value: "jobmanager.rpc.address=flink-jobmanager"
-        volumeMounts:
-        - name: flink-config-volume
-          mountPath: /opt/flink/conf
+        - name: jobmanager
+          image: flink:1.20.0-scala_2.12
+          args: ["jobmanager"]
+          ports:
+            - containerPort: 6123
+            - containerPort: 6124
+            - containerPort: 8081
+          env:
+            - name: FLINK_PROPERTIES
+              value: "jobmanager.rpc.address=flink-jobmanager"
+          volumeMounts:
+            - name: flink-conf
+              mountPath: /opt/flink/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
+            - name: flink-log4j
+              mountPath: /opt/flink/conf/log4j-console.properties
+              subPath: log4j-console.properties
       volumes:
-      - name: flink-config-volume
-        configMap:
-          name: flink-config
+        - name: flink-conf
+          configMap:
+            name: flink-config
+            items:
+              - key: flink-conf.yaml
+                path: flink-conf.yaml
+        - name: flink-log4j
+          configMap:
+            name: flink-config
+            items:
+              - key: log4j-console.properties
+                path: log4j-console.properties
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -124,20 +135,33 @@ spec:
         app: flink-taskmanager
     spec:
       containers:
-      - name: taskmanager
-        image: flink:1.20.0-scala_2.12
-        args: ["taskmanager"]
-        ports:
-        - containerPort: 6121
-        - containerPort: 6122
-        - containerPort: 6125
-        env:
-        - name: FLINK_PROPERTIES
-          value: "jobmanager.rpc.address=flink-jobmanager"
-        volumeMounts:
-        - name: flink-config-volume
-          mountPath: /opt/flink/conf
+        - name: taskmanager
+          image: flink:1.20.0-scala_2.12
+          args: ["taskmanager"]
+          ports:
+            - containerPort: 6121
+            - containerPort: 6122
+            - containerPort: 6125
+          env:
+            - name: FLINK_PROPERTIES
+              value: "jobmanager.rpc.address=flink-jobmanager"
+          volumeMounts:
+            - name: flink-conf
+              mountPath: /opt/flink/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
+            - name: flink-log4j
+              mountPath: /opt/flink/conf/log4j-console.properties
+              subPath: log4j-console.properties
       volumes:
-      - name: flink-config-volume
-        configMap:
-          name: flink-config
+        - name: flink-conf
+          configMap:
+            name: flink-config
+            items:
+              - key: flink-conf.yaml
+                path: flink-conf.yaml
+        - name: flink-log4j
+          configMap:
+            name: flink-config
+            items:
+              - key: log4j-console.properties
+                path: log4j-console.properties
