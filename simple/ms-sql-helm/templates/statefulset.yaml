@@ -14,7 +14,7 @@ spec:
         app: mssql
     spec:
       securityContext:
-        fsGroup: 10001
+        fsGroup: 0
       initContainers:
       - name: fix-permissions
         image: busybox
