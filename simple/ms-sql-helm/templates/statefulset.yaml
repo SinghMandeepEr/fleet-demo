@@ -37,23 +37,15 @@ spec:
         - name: mssql
           mountPath: "/var/opt/mssql"
         readinessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - >
-                /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
+          tcpSocket:
+            port: 1433
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 6
         livenessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - >
-                /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
+          tcpSocket:
+            port: 1433
           initialDelaySeconds: 60
           periodSeconds: 20
           timeoutSeconds: 5
