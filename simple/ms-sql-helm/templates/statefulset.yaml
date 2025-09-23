@@ -14,7 +14,10 @@ spec:
         app: mssql
     spec:
       securityContext:
-        fsGroup: 0
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
       - name: fix-permissions
         image: busybox
