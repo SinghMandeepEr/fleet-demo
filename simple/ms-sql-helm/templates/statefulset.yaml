@@ -15,18 +15,7 @@ spec:
     spec:
       securityContext:
         runAsUser: 10001
-        runAsGroup: 10001
         fsGroup: 10001
-        fsGroupChangePolicy: "OnRootMismatch"
-      initContainers:
-      - name: fix-permissions
-        image: busybox
-        securityContext:
-          runAsUser: 0
-        command: ["sh", "-c", "chown -R 10001:10001 /var/opt/mssql"]
-        volumeMounts:
-        - name: mssql
-          mountPath: /var/opt/mssql
       containers:
       - name: mssql
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -47,43 +36,7 @@ spec:
         volumeMounts:
         - name: mssql
           mountPath: "/var/opt/mssql"
-        resources:
-          requests:
-            memory: {{ .Values.resources.requests.memory }}
-            cpu: {{ .Values.resources.requests.cpu }}
-          limits:
-            memory: {{ .Values.resources.limits.memory }}
-            cpu: {{ .Values.resources.limits.cpu }}
-        readinessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - >
-                /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
-          initialDelaySeconds: 30   # give SQL Server time to start
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 6
-        livenessProbe:
-          exec:
-            command:
-              - /bin/sh
-              - -c
-              - >
-                /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
-          initialDelaySeconds: 60   # wait longer before checking liveness
-          periodSeconds: 20
-          timeoutSeconds: 5
-          failureThreshold: 3
-  volumeClaimTemplates:
-    - metadata:
-        name: mssql
-      spec:
-        accessModes:
-          - {{ .Values.persistence.accessMode }}
-        resources:
-          requests:
-            storage: {{ .Values.persistence.storage }}
-          limits:
-            storage: {{ .Values.persistence.storage }}
+      volumes:
+      - name: mssql
+        persistentVolumeClaim:
+          claimName: mssql-pvc
