@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: smart-alarms-webapp
   namespace: smart-alarm
-  rev: 1
+  rev: 2
 spec:
   replicas: 1
   selector:

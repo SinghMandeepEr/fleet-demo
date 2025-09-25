@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: rig-alarms-dashboard-ingress
   namespace: smart-alarm
+  rev: 1
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
