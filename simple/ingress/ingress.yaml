@@ -4,9 +4,11 @@ metadata:
   name: rig-alarms-dashboard-ingress
   namespace: smart-alarm
   rev: 2
+  labels:
+    hmiVisible: "false"
   annotations:
     kubernetes.io/ingress.class: traefik
-    hpinc.com/hmiVisible: "true"
+    
 spec:
   rules:
   - http:
@@ -24,10 +26,11 @@ kind: Ingress
 metadata:
   name: smart-alarms-ingress
   namespace: smart-alarm
+  labels:
+    hmiVisible: "true"
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/rewrite-target: /
-    hpinc.com/hmiVisible: "true"
 spec:
   rules:
   - http:
