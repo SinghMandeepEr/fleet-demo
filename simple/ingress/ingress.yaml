@@ -6,7 +6,7 @@ metadata:
   rev: 2
   annotations:
     kubernetes.io/ingress.class: traefik
-    hmiVisible: true
+    hpinc.com/hmiVisible: "true"
 spec:
   rules:
   - http:
@@ -27,7 +27,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/rewrite-target: /
-    hmiVisible: false
+    hpinc.com/hmiVisible: "true"
 spec:
   rules:
   - http:
